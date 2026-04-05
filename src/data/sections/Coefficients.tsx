@@ -7,7 +7,6 @@ import {
     EditableParagraph,
     InlineScrubbleNumber,
     InlineSpotColor,
-    InlineTrigger,
     InlineClozeChoice,
     Cartesian2D,
 } from "@/components/atoms";
@@ -30,73 +29,51 @@ function CoefficientsVisualization() {
     const quadratic = (x: number) => a * x * x + b * x + c;
 
     return (
-        <div className="relative">
-            <Cartesian2D
-                height={400}
-                viewBox={{ x: [-6, 6], y: [-8, 10] }}
-                showGrid={true}
-                plots={[
-                    // Reference parabola y = x² (faded)
-                    {
-                        type: "function",
-                        fn: (x) => x * x,
-                        color: "#cbd5e1",
-                        weight: 2,
-                    },
-                    // Main quadratic function
-                    ...(a !== 0 ? [{
-                        type: "function" as const,
-                        fn: quadratic,
-                        color: "#62D0AD",
-                        weight: 3,
-                    }] : []),
-                    // Y-intercept point (where x = 0)
-                    {
-                        type: "point" as const,
-                        x: 0,
-                        y: c,
-                        color: "#F7B23B",
-                    },
-                    // Vertex point
-                    ...(a !== 0 ? [{
-                        type: "point" as const,
-                        x: vertexX,
-                        y: vertexY,
-                        color: "#ef4444",
-                    }] : []),
-                    // Axis of symmetry
-                    ...(a !== 0 ? [{
-                        type: "segment" as const,
-                        point1: [vertexX, -8] as [number, number],
-                        point2: [vertexX, 10] as [number, number],
-                        color: "#94a3b8",
-                        weight: 1,
-                        style: "dashed" as const,
-                    }] : []),
-                ]}
-            />
-            {/* No interaction hint needed - this visualization is controlled by text scrubbers */}
-        </div>
+        <Cartesian2D
+            height={400}
+            viewBox={{ x: [-6, 6], y: [-8, 10] }}
+            showGrid={true}
+            plots={[
+                // Reference parabola y = x² (faded)
+                {
+                    type: "function",
+                    fn: (x) => x * x,
+                    color: "#cbd5e1",
+                    weight: 2,
+                },
+                // Main quadratic function
+                ...(a !== 0 ? [{
+                    type: "function" as const,
+                    fn: quadratic,
+                    color: "#62D0AD",
+                    weight: 3,
+                }] : []),
+                // Y-intercept point (where x = 0)
+                {
+                    type: "point" as const,
+                    x: 0,
+                    y: c,
+                    color: "#F7B23B",
+                },
+                // Vertex point
+                ...(a !== 0 ? [{
+                    type: "point" as const,
+                    x: vertexX,
+                    y: vertexY,
+                    color: "#ef4444",
+                }] : []),
+                // Axis of symmetry
+                ...(a !== 0 ? [{
+                    type: "segment" as const,
+                    point1: [vertexX, -8] as [number, number],
+                    point2: [vertexX, 10] as [number, number],
+                    color: "#94a3b8",
+                    weight: 1,
+                    style: "dashed" as const,
+                }] : []),
+            ]}
+        />
     );
-}
-
-// ── Reactive Vertex Display ───────────────────────────────────────────────────
-function ReactiveVertexX() {
-    const a = useVar('coefficientA', 1) as number;
-    const b = useVar('coefficientB', 0) as number;
-    if (a === 0) return <span>undefined</span>;
-    const vertexX = -b / (2 * a);
-    return <span style={{ color: '#8E90F5', fontWeight: 600 }}>{vertexX.toFixed(1)}</span>;
-}
-
-function ReactiveVertexY() {
-    const a = useVar('coefficientA', 1) as number;
-    const b = useVar('coefficientB', 0) as number;
-    const c = useVar('coefficientC', 0) as number;
-    if (a === 0) return <span>undefined</span>;
-    const vertexX = -b / (2 * a);
-    const vertexY = a * vertexX * vertexX + b * vertexX + c;
-    return <span style={{ color: '#F7B23B', fontWeight: 600 }}>{vertexY.toFixed(1)}</span>;
 }
 
 // ── Section Blocks ────────────────────────────────────────────────────────────
@@ -115,9 +92,7 @@ export const coefficientsBlocks: ReactElement[] = [
     <StackLayout key="layout-coeff-intro" maxWidth="xl">
         <Block id="coeff-intro" padding="sm">
             <EditableParagraph id="para-coeff-intro" blockId="coeff-intro">
-                The general form of a quadratic function is y = ax² + bx + c. Each coefficient
-                plays a distinct role in shaping the parabola. The faded grey curve below shows
-                the basic y = x² for comparison, while the teal curve shows your customized parabola.
+                The general quadratic is y = ax² + bx + c. The grey curve shows y = x² for comparison.
             </EditableParagraph>
         </Block>
     </StackLayout>,
@@ -165,23 +140,9 @@ export const coefficientsBlocks: ReactElement[] = [
                     />
                 </EditableParagraph>
             </Block>
-            <Block id="coeff-reset-triggers" padding="sm">
-                <EditableParagraph id="para-coeff-reset-triggers" blockId="coeff-reset-triggers">
-                    Try these presets:{" "}
-                    <InlineTrigger varName="coefficientA" value={1} icon="refresh">
-                        reset to y = x²
-                    </InlineTrigger>
-                    {" "}or explore a{" "}
-                    <InlineTrigger varName="coefficientA" value={-1} icon="zap">
-                        downward parabola
-                    </InlineTrigger>
-                    .
-                </EditableParagraph>
-            </Block>
-            <Block id="coeff-vertex-info" padding="sm">
-                <EditableParagraph id="para-coeff-vertex-info" blockId="coeff-vertex-info">
-                    The red point marks the vertex at (<ReactiveVertexX />, <ReactiveVertexY />).
-                    The amber point shows where the parabola crosses the y-axis (the y-intercept).
+            <Block id="coeff-info" padding="sm">
+                <EditableParagraph id="para-coeff-info" blockId="coeff-info">
+                    The red point is the vertex. The amber point is the y-intercept.
                 </EditableParagraph>
             </Block>
         </div>
@@ -190,11 +151,11 @@ export const coefficientsBlocks: ReactElement[] = [
         </Block>
     </SplitLayout>,
 
-    // Coefficient a explanation
+    // Coefficient a
     <StackLayout key="layout-coeff-a-heading" maxWidth="xl">
         <Block id="coeff-a-heading" padding="sm">
             <EditableH3 id="h3-coeff-a-heading" blockId="coeff-a-heading">
-                The Coefficient a: Direction and Width
+                Coefficient a: Direction and Width
             </EditableH3>
         </Block>
     </StackLayout>,
@@ -202,23 +163,18 @@ export const coefficientsBlocks: ReactElement[] = [
     <StackLayout key="layout-coeff-a-explanation" maxWidth="xl">
         <Block id="coeff-a-explanation" padding="sm">
             <EditableParagraph id="para-coeff-a-explanation" blockId="coeff-a-explanation">
-                The coefficient{" "}
-                <InlineSpotColor varName="coefficientA" {...spotColorPropsFromDefinition(getVariableInfo('coefficientA'))}>
-                    a
-                </InlineSpotColor>
-                {" "}controls two things: the direction the parabola opens and how wide or narrow it is.
-                When a is positive, the parabola opens upward like a smile. When a is negative, it flips
-                and opens downward like a frown. The larger the absolute value of a, the narrower the
-                parabola becomes. Try setting a to 2, then to 0.5, and notice the difference in width.
+                Positive a opens upward, negative a opens downward.
+                Larger |a| makes it narrower; smaller |a| makes it wider.
+                Try a = 2 vs a = 0.5.
             </EditableParagraph>
         </Block>
     </StackLayout>,
 
-    // Coefficient c explanation
+    // Coefficient c
     <StackLayout key="layout-coeff-c-heading" maxWidth="xl">
         <Block id="coeff-c-heading" padding="sm">
             <EditableH3 id="h3-coeff-c-heading" blockId="coeff-c-heading">
-                The Coefficient c: Vertical Position
+                Coefficient c: Vertical Shift
             </EditableH3>
         </Block>
     </StackLayout>,
@@ -226,23 +182,17 @@ export const coefficientsBlocks: ReactElement[] = [
     <StackLayout key="layout-coeff-c-explanation" maxWidth="xl">
         <Block id="coeff-c-explanation" padding="sm">
             <EditableParagraph id="para-coeff-c-explanation" blockId="coeff-c-explanation">
-                The coefficient{" "}
-                <InlineSpotColor varName="coefficientC" {...spotColorPropsFromDefinition(getVariableInfo('coefficientC'))}>
-                    c
-                </InlineSpotColor>
-                {" "}is the simplest to understand: it shifts the entire parabola up or down. It also
-                tells you exactly where the parabola crosses the y-axis. When you set c to 3, the
-                parabola moves up 3 units, and it crosses the y-axis at the point (0, 3). This is why
-                c is called the y-intercept.
+                The value c shifts the parabola up or down and equals the y-intercept.
+                When c = 3, the parabola crosses the y-axis at (0, 3).
             </EditableParagraph>
         </Block>
     </StackLayout>,
 
-    // Coefficient b explanation
+    // Coefficient b
     <StackLayout key="layout-coeff-b-heading" maxWidth="xl">
         <Block id="coeff-b-heading" padding="sm">
             <EditableH3 id="h3-coeff-b-heading" blockId="coeff-b-heading">
-                The Coefficient b: Horizontal Shift
+                Coefficient b: Horizontal Shift
             </EditableH3>
         </Block>
     </StackLayout>,
@@ -250,32 +200,37 @@ export const coefficientsBlocks: ReactElement[] = [
     <StackLayout key="layout-coeff-b-explanation" maxWidth="xl">
         <Block id="coeff-b-explanation" padding="sm">
             <EditableParagraph id="para-coeff-b-explanation" blockId="coeff-b-explanation">
-                The coefficient{" "}
-                <InlineSpotColor varName="coefficientB" {...spotColorPropsFromDefinition(getVariableInfo('coefficientB'))}>
-                    b
-                </InlineSpotColor>
-                {" "}is trickier. It works together with a to shift the parabola left or right. Watch
-                the vertex (red point) move as you change b. The horizontal position of the vertex is
-                given by the formula x = −b/(2a). When b is positive, the vertex moves left (for
-                positive a); when b is negative, it moves right.
+                The value b shifts the vertex left or right. The vertex x-coordinate is −b/(2a).
+                Watch the red point move as you change b.
             </EditableParagraph>
         </Block>
     </StackLayout>,
 
-    // Assessment question
+    // Assessment
     <StackLayout key="layout-coeff-question" maxWidth="xl">
         <Block id="coeff-question" padding="md">
             <EditableParagraph id="para-coeff-question" blockId="coeff-question">
-                <strong>Check your understanding:</strong> If the coefficient a is negative, the parabola opens{" "}
+                <strong>Quick check:</strong> If a is negative, the parabola opens{" "}
                 <InlineFeedback
                     varName="answerParabolaDirection"
                     correctValue="downward"
                     position="terminal"
-                    successMessage="— exactly right! A negative a flips the parabola upside down"
-                    failureMessage="— not quite"
-                    hint="Think about what happens when you multiply x² by a negative number"
-                    reviewBlockId="coeff-a-explanation"
-                    reviewLabel="Review the effect of coefficient a"
+                    successMessage="— correct!"
+                    failureMessage="— try again"
+                    hint="Negative a flips the parabola"
+                    visualizationHint={{
+                        blockId: "coeff-visualization",
+                        hintKey: "coeff-direction-hint",
+                        steps: [
+                            {
+                                gesture: "drag-horizontal",
+                                label: "Look at the graph when a is negative",
+                                position: { x: "50%", y: "30%" },
+                            }
+                        ],
+                        label: "Check the graph",
+                        resetVars: { coefficientA: -1, coefficientB: 0, coefficientC: 0 },
+                    }}
                 >
                     <InlineClozeChoice
                         varName="answerParabolaDirection"
