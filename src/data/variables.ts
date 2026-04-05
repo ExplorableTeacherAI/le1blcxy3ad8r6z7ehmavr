@@ -1,12 +1,12 @@
 /**
  * Variables Configuration
  * =======================
- * 
+ *
  * CENTRAL PLACE TO DEFINE ALL SHARED VARIABLES
- * 
+ *
  * This file defines all variables that can be shared across sections.
  * AI agents should read this file to understand what variables are available.
- * 
+ *
  * USAGE:
  * 1. Define variables here with their default values and metadata
  * 2. Use them in any section with: const x = useVar('variableName', defaultValue)
@@ -53,108 +53,229 @@ export interface VariableDefinition {
 
 /**
  * =====================================================
- * 🎯 DEFINE YOUR VARIABLES HERE
+ * 🎯 QUADRATIC FUNCTIONS LESSON VARIABLES
  * =====================================================
- * 
- * SUPPORTED TYPES:
- * 
- * 1. NUMBER (slider):
- *    { defaultValue: 5, type: 'number', min: 0, max: 10, step: 1 }
- * 
- * 2. TEXT (free text):
- *    { defaultValue: 'Hello', type: 'text', placeholder: 'Enter text...' }
- * 
- * 3. SELECT (dropdown):
- *    { defaultValue: 'sine', type: 'select', options: ['sine', 'cosine', 'tangent'] }
- * 
- * 4. BOOLEAN (toggle):
- *    { defaultValue: true, type: 'boolean' }
- * 
- * 5. ARRAY (list of numbers):
- *    { defaultValue: [1, 2, 3], type: 'array' }
- * 
- * 6. OBJECT (complex data):
- *    { defaultValue: { x: 5, y: 10 }, type: 'object', schema: '{ x: number, y: number }' }
  */
 export const variableDefinitions: Record<string, VariableDefinition> = {
-    // ========================================
-    // ADD YOUR VARIABLES HERE
-    // ========================================
-
-    // Uncomment and modify these examples for your lesson:
-
-    /*
     // ─────────────────────────────────────────
-    // NUMBER - Use with sliders
+    // SECTION 1: Introduction - Basketball Trajectory
     // ─────────────────────────────────────────
-    myValue: {
-        defaultValue: 5,
+    launchAngle: {
+        defaultValue: 55,
         type: 'number',
-        label: 'My Value',
-        description: 'A number that controls something',
-        unit: 'm',           // optional unit display
-        min: 0,
-        max: 10,
+        label: 'Launch Angle',
+        description: 'The angle at which the basketball is thrown',
+        unit: '°',
+        min: 30,
+        max: 75,
+        step: 1,
+        color: '#62D0AD',
+    },
+
+    // ─────────────────────────────────────────
+    // SECTION 2: Shape of a Parabola
+    // ─────────────────────────────────────────
+    basicParabolaX: {
+        defaultValue: 2,
+        type: 'number',
+        label: 'X Value',
+        description: 'X coordinate on the basic parabola y = x²',
+        min: -4,
+        max: 4,
         step: 0.5,
+        color: '#8E90F5',
     },
 
     // ─────────────────────────────────────────
-    // TEXT - Free text input
+    // SECTION 3: Coefficients - How a, b, c affect the shape
     // ─────────────────────────────────────────
-    lessonTitle: {
-        defaultValue: 'My Lesson',
-        type: 'text',
-        label: 'Lesson Title',
-        description: 'The title of your lesson',
-        placeholder: 'Enter a title...',
+    coefficientA: {
+        defaultValue: 1,
+        type: 'number',
+        label: 'Coefficient a',
+        description: 'The coefficient that controls the width and direction of the parabola',
+        min: -3,
+        max: 3,
+        step: 0.25,
+        color: '#62D0AD',
+    },
+    coefficientB: {
+        defaultValue: 0,
+        type: 'number',
+        label: 'Coefficient b',
+        description: 'The coefficient that shifts the parabola horizontally',
+        min: -4,
+        max: 4,
+        step: 0.5,
+        color: '#8E90F5',
+    },
+    coefficientC: {
+        defaultValue: 0,
+        type: 'number',
+        label: 'Coefficient c',
+        description: 'The coefficient that shifts the parabola vertically (y-intercept)',
+        min: -5,
+        max: 5,
+        step: 0.5,
+        color: '#F7B23B',
     },
 
     // ─────────────────────────────────────────
-    // SELECT - Dropdown with options
+    // SECTION 4: Vertex and Intercepts
     // ─────────────────────────────────────────
-    difficulty: {
-        defaultValue: 'medium',
+    vertexExampleA: {
+        defaultValue: 1,
+        type: 'number',
+        label: 'Coefficient a for vertex example',
+        description: 'Controls the shape in the vertex demonstration',
+        min: -2,
+        max: 2,
+        step: 0.5,
+        color: '#62D0AD',
+    },
+    vertexExampleH: {
+        defaultValue: 2,
+        type: 'number',
+        label: 'Horizontal shift h',
+        description: 'The x-coordinate of the vertex',
+        min: -4,
+        max: 4,
+        step: 0.5,
+        color: '#8E90F5',
+    },
+    vertexExampleK: {
+        defaultValue: -1,
+        type: 'number',
+        label: 'Vertical shift k',
+        description: 'The y-coordinate of the vertex',
+        min: -4,
+        max: 4,
+        step: 0.5,
+        color: '#F7B23B',
+    },
+
+    // ─────────────────────────────────────────
+    // SECTION 5: Solving Quadratic Equations
+    // ─────────────────────────────────────────
+    solveExampleA: {
+        defaultValue: 1,
+        type: 'number',
+        label: 'Coefficient a for solving',
+        description: 'The a coefficient in the equation to solve',
+        min: -2,
+        max: 2,
+        step: 0.5,
+        color: '#62D0AD',
+    },
+    solveExampleB: {
+        defaultValue: -2,
+        type: 'number',
+        label: 'Coefficient b for solving',
+        description: 'The b coefficient in the equation to solve',
+        min: -6,
+        max: 6,
+        step: 1,
+        color: '#8E90F5',
+    },
+    solveExampleC: {
+        defaultValue: -3,
+        type: 'number',
+        label: 'Coefficient c for solving',
+        description: 'The c coefficient in the equation to solve',
+        min: -6,
+        max: 6,
+        step: 1,
+        color: '#F7B23B',
+    },
+
+    // ─────────────────────────────────────────
+    // SECTION 6: Real-World Applications
+    // ─────────────────────────────────────────
+    projectileTime: {
+        defaultValue: 1,
+        type: 'number',
+        label: 'Time',
+        description: 'Time elapsed in projectile motion',
+        unit: 's',
+        min: 0,
+        max: 4,
+        step: 0.1,
+        color: '#AC8BF9',
+    },
+    projectileVelocity: {
+        defaultValue: 20,
+        type: 'number',
+        label: 'Initial Velocity',
+        description: 'Initial velocity of the projectile',
+        unit: 'm/s',
+        min: 10,
+        max: 30,
+        step: 1,
+        color: '#62D0AD',
+    },
+
+    // ─────────────────────────────────────────
+    // ASSESSMENT VARIABLES
+    // ─────────────────────────────────────────
+    answerParabolaDirection: {
+        defaultValue: '',
         type: 'select',
-        label: 'Difficulty',
-        description: 'The difficulty level of the lesson',
-        options: ['easy', 'medium', 'hard', 'expert'],
+        label: 'Parabola Direction Answer',
+        description: 'Student answer for direction when a is negative',
+        placeholder: '???',
+        correctAnswer: 'downward',
+        options: ['upward', 'downward', 'left', 'right'],
+        color: '#8E90F5',
+    },
+    answerYIntercept: {
+        defaultValue: '',
+        type: 'text',
+        label: 'Y-Intercept Answer',
+        description: 'Student answer for the y-intercept value',
+        placeholder: '???',
+        correctAnswer: '3',
+        color: '#F7B23B',
+    },
+    answerVertexX: {
+        defaultValue: '',
+        type: 'text',
+        label: 'Vertex X Answer',
+        description: 'Student answer for vertex x-coordinate',
+        placeholder: '???',
+        correctAnswer: '2',
+        color: '#8E90F5',
+    },
+    answerDiscriminant: {
+        defaultValue: '',
+        type: 'select',
+        label: 'Discriminant Meaning Answer',
+        description: 'Student answer for what discriminant tells us',
+        placeholder: '???',
+        correctAnswer: 'two',
+        options: ['zero', 'one', 'two'],
+        color: '#AC8BF9',
+    },
+    answerMaxHeight: {
+        defaultValue: '',
+        type: 'text',
+        label: 'Maximum Height Answer',
+        description: 'Student answer for max height in projectile problem',
+        placeholder: '???',
+        correctAnswer: '20',
+        color: '#62D0AD',
     },
 
     // ─────────────────────────────────────────
-    // BOOLEAN - Toggle switch
+    // LINKED HIGHLIGHT VARIABLES
     // ─────────────────────────────────────────
-    showHints: {
-        defaultValue: true,
-        type: 'boolean',
-        label: 'Show Hints',
-        description: 'Toggle to show or hide hints',
+    activeHighlight: {
+        defaultValue: '',
+        type: 'text',
+        label: 'Active Highlight',
+        description: 'Currently highlighted element for linked highlighting',
+        color: '#62D0AD',
+        bgColor: 'rgba(98, 208, 173, 0.15)',
     },
-
-    // ─────────────────────────────────────────
-    // ARRAY - List of numbers
-    // ─────────────────────────────────────────
-    dataPoints: {
-        defaultValue: [1, 4, 9, 16, 25],
-        type: 'array',
-        label: 'Data Points',
-        description: 'Y-values for plotting a graph',
-    },
-
-    // ─────────────────────────────────────────
-    // OBJECT - Complex structured data
-    // ─────────────────────────────────────────
-    graphSettings: {
-        defaultValue: { 
-            xMin: -10, 
-            xMax: 10, 
-            showGrid: true 
-        },
-        type: 'object',
-        label: 'Graph Settings',
-        description: 'Configuration for the graph display',
-        schema: '{ xMin: number, xMax: number, showGrid: boolean }',
-    },
-    */
 };
 
 /**
